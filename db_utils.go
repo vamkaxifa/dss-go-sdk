@@ -2,41 +2,13 @@ package dss
 
 import (
 	"fmt"
-	"strings"
-
 	"gopkg.in/yaml.v2"
-)
-
-const (
-	//timeOutSeconds 3s
-	timeOutSeconds = 3
-	//profileRc1 test1
-	profileRc1 = "rc1"
-	//profileRc2 test2
-	profileRc2 = "rc2"
-	//profileProd prod
-	profileProd = "prod"
 )
 
 // GetDbProperties get database connection parameters
 func GetDbProperties(url, platKey, svcCode, profile, userAgent string) (map[string]DsnProperties, error) {
-	if strings.Trim(url, " ") == "" {
-		return nil, fmt.Errorf("URL can't be empty string")
-	}
-	if !strings.HasPrefix(url, "https") {
-		return nil, fmt.Errorf("Only https protocol is supported ")
-	}
-	if strings.Trim(platKey, " ") == "" {
-		return nil, fmt.Errorf("platKey can't be empty string")
-	}
-	if strings.Trim(svcCode, " ") == "" {
-		return nil, fmt.Errorf("svcCode can't be empty string")
-	}
-	if strings.Trim(profile, " ") == "" {
-		return nil, fmt.Errorf("profile can't be empty string")
-	}
-	if profile != profileRc1 && profile != profileRc2 && profile != profileProd {
-		return nil, fmt.Errorf("profile error")
+	if err := CheckParam(url, platKey, svcCode, profile, userAgent); err != nil {
+		return nil, err
 	}
 	prams := make(map[string]string)
 	prams["platkey"] = platKey

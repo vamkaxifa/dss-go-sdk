@@ -5,8 +5,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// GetQueueProperties get queue connection parameters
-func GetQueueProperties(url, platKey, svcCode, profile, userAgent string) (map[string]MqProperties, error) {
+// GetMiscProperties get queue connection parameters
+func GetMiscProperties(url, platKey, svcCode, profile, userAgent string) (map[string]MiscProperties, error) {
 	if err := CheckParam(url, platKey, svcCode, profile, userAgent); err != nil {
 		return nil, err
 	}
@@ -23,13 +23,13 @@ func GetQueueProperties(url, platKey, svcCode, profile, userAgent string) (map[s
 	if err != nil {
 		return nil, err
 	}
-	resObj := make(map[string]map[string]MqProperties)
+	resObj := make(map[string]map[string]MiscProperties)
 	err = yaml.Unmarshal(bodyBytes, resObj)
 	if err != nil {
-		// It indicates that the server does not return queue.yml file normally, either the PLATKEY is wrong,
+		// It indicates that the server does not return misc.yml file normally, either the PLATKEY is wrong,
 		// or the SVCCODE is wrong, or the PROFILE is wrong.
 		// If there is no problem in self-examination, contact the data source management system administrator
 		return nil, fmt.Errorf("%s: %s", err.Error(), string(bodyBytes))
 	}
-	return resObj["queue"], nil
+	return resObj["misc"], nil
 }
