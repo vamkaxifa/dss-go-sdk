@@ -83,3 +83,28 @@ func test(){
     }
 }
 ```
+
+2.4 memory
+
+```go
+import (
+    "fmt"
+    "github.com/vamkaxifa/dss-go-sdk"
+)
+func test(){
+   const (
+        url     = "https://test.example.com/dss/mem"
+        platKey = "xxxx"
+        svcCode = "xxxx"
+        profile = "xxx"
+        userAgent = svcCode
+   	)
+    memObj, err := GetMemProperties(url, platKey, svcCode, profile, userAgent)
+    if err != nil {
+        panic(err)
+    }
+    for k, v := range memObj {
+       t.Logf("mem-n：%s, server_path: %s, mount_path: %s", k, v.MountPath, v.ServerPath)
+    }
+}
+```
